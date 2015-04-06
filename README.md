@@ -14,6 +14,20 @@ Ansible role which manage [heka](http://http://http://hekad.readthedocs.org/)
 Here is the list of all variables and their default values:
 
 ```yaml
+heka_enabled: yes                           # The role is enabled
+heka_version: 0.9.1                         # Set version
+heka_deb: https://github.com/mozilla-services/heka/releases/download/v{{heka_version}}/heka_{{heka_version}}_amd64.deb
+
+heka_etc_dir: /etc/heka.d
+
+heka_base_dir: /var/cache/hekad
+heka_pid_file: /var/run/hekad.pid
+heka_maxproc: 1
+
+heka_inputs: ""
+heka_decoders: ""
+heka_encoders: ""
+heka_outputs: ""
 ```
 
 #### Usage
@@ -41,7 +55,6 @@ Example:
         [PayloadEncoder]
 
     heka_outputs: |
-
         [FileOutput]
         message_matcher = "TRUE"
         encoder = "PayloadEncoder"
