@@ -1,0 +1,7 @@
+---
+
+- include: install.yml
+  tags: [heka, heka-install]
+
+- include: configure.yml
+  tags: [heka, heka-configure]

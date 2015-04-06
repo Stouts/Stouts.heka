@@ -1,0 +1,4 @@
+---
+
+- name: heka restart
+  service: name=hekad state=restarted

@@ -1,0 +1,10 @@
+---
+
+- name: heka-install | Ensure Heka directory is exists
+  file: path=/usr/share/heka state=directory owner=root group=root mode=0755
+
+- name: heka-install | Download Heka
+  get_url: url={{heka_deb}} dest=/usr/share/heka/heka.deb
+
+- name: heka-install | Install Heka
+  apt: deb=/usr/share/heka/heka.deb

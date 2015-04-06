@@ -1,0 +1,5 @@
+---
+
+- include: heka.yml
+  when: heka_enabled
+  tags: [heka]

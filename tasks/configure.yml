@@ -1,0 +1,34 @@
+---
+
+- name: heka-configure | Ensure that heka config dir is exists
+  file: state=directory path={{heka_etc_dir}}
+
+- name: heka-configure | Ensure that heka working dir is exists
+  file: state=directory path={{heka_base_dir}}
+
+- name: heka-configure | Setup heka pt. 1
+  template: src=config.toml.j2 dest={{heka_etc_dir}}/0_config.toml
+  notify: heka restart
+
+- name: heka-configure | Setup heka pt. 2
+  copy: content="{{heka_inputs}}\n" dest={{heka_etc_dir}}/1_inputs.toml
+  notify: heka restart
+
+- name: heka-configure | Setup heka pt. 3
+  copy: content="{{heka_decoders}}\n" dest={{heka_etc_dir}}/2_decoders.toml
+  notify: heka restart
+
+- name: heka-configure | Setup heka pt. 4
+  copy: content="{{heka_encoders}}\n" dest={{heka_etc_dir}}/3_encoders.toml
+  notify: heka restart
+
+- name: heka-configure | Setup heka pt. 5
+  copy: content="{{heka_outputs}}\n" dest={{heka_etc_dir}}/4_outputs.toml
+  notify: heka restart
+
+- name: heka-configure | Setup service
+  template: src=upstart.conf.j2 dest=/etc/init/hekad.conf
+  notify: heka restart
+
+- name: heka-configure | Ensure the service is started
+  service: name=hekad state=started
